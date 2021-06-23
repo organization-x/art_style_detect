@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed May 19 22:01:19 2021
-
 @author: axalo
 """
 
-import os, shutil
+import os, shutil, math
 
 class Checks:
     def check_exists(self, dirpath, loc):
@@ -24,6 +23,9 @@ class Checks:
     def file_check(self, filepath, loc):
         if self.check_exists(filepath, loc):
             os.remove(filepath)
+    
+    def round_to_even(self, val):
+        return math.ceil(val / 2.) * 2
 
 class Cleaner:
     def __init__(self, in_dir, img_dir, c, cur_dir):
@@ -67,10 +69,12 @@ class Data:
         styles = ["Impressionist", "Baroque", "Spanish Southwest", 
                   "Renaissance", "Post Impressionist", "Realist"]
         
-        #style = input("Style of Painting: ").title()
-        #in_dir = input("Input Folder Path: ")
-        #cur_dir = input("Ouput Folder Location, or Leave Blank: ")
-        test = ["Impressionist", "C:\\Users\\axalo\\OneDrive\\Documents\\aicamp_project\\test_images", "all_imgtxt", ""]
+        # This is where you put in the directory
+        # [style of art, path to image directory, name of new folder, directory you want the python file to work in]
+        # For the last spot, leave it blank if this file is in the same directory as your image folder
+        # Below is an example/template:
+        
+        test = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
     
         style, in_dir, img_dir, cur_dir = tuple(test)
         
@@ -114,18 +118,18 @@ class Split:
     def move_files(self, percentages, dest_folders):
         for subdir, dirs, files in os.walk(self.img_dir):
             n = x = 0
-            length = int((len(files) / 2) * percentages[x])
+            length = self.checks.round_to_even((len(files) / 2) * percentages[x])
             for f in files:
-                if n > length:
+                if n >= length:
                     x += 1
-                    length += int((len(files) / 2) * percentages[x])
+                    length += self.checks.round_to_even((len(files) / 2) * percentages[x])
                 shutil.copy(os.path.join(self.img_dir, f), dest_folders[x])
                 self.addToMasterList(dest_folders[x], f)
                 n += 0.5
     
     def fill_dirs(self):
         folders = [self.train_folder, self.validate_folder, self.test_folder]
-        self.move_files([0.7, 0.2, 0.2], folders)
+        self.move_files([0.6, 0.2, 0.2], folders)
         print("Training Images:", folders[0])
         print("Validate Images:", folders[1])
         print("Test Images:", folders[2])
