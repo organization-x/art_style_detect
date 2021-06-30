@@ -3,6 +3,9 @@
 Created on Wed May 19 22:01:19 2021
 @author: axalo
 """
+
+#DO NOT RUN THIS YET
+
 import os, shutil, math
 
 # class that checks
