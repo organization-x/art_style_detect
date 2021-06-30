@@ -26,7 +26,7 @@ class Imgs:
         self.tools = Tools()
         self.image_folders = []
 
-        self.in_dir = "C:/Users/axalo/OneDrive/Documents/aicamp_project/image_folders/" #directory with your image folders goes here
+        self.in_dir = "C:/Users/axalo/OneDrive/Documents/aicamp_project/image_folders_2/" #directory with your image folders goes here
         self.out_dir = "C:/Users/axalo/OneDrive/Documents/aicamp_project/" #directory to place cleaned image folder in
         
         print("Images will be taken from folders in {} and a new folder will be placed in {}".format(self.in_dir, self.out_dir))
@@ -39,9 +39,10 @@ class Imgs:
         if not self.tools.adding_images(self.new_folder, self.out_dir):
             os.mkdir(self.new_folder)
             self.count_imgs = 0
+            self.adding_imgs = False
         else:
             self.count_imgs = self.tools.dir_len(self.new_folder)
-            shutil.rmtree(self.unzipped_folders)
+            self.adding_imgs = True
         
         os.mkdir(self.unzipped_folders)
             
@@ -68,8 +69,9 @@ class Imgs:
             imgnum = random.choice(numlist)
             numlist.remove(imgnum)
             return os.path.join(subdir, "image" + str(imgnum) + ".jpg")
-            
-        numlist = [i for i in range(self.count_imgs, self.tools.dir_len(self.unzipped_folders) + 1)]
+        
+        numlist = [i for i in range(self.count_imgs, self.tools.dir_len(self.unzipped_folders) + 1 + self.count_imgs)]
+        
         for subdir, dirs, files in os.walk(self.unzipped_folders):
             for f in files:
                 old_name = os.path.join(subdir, f)
