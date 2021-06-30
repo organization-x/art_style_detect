@@ -3,7 +3,6 @@
 Created on Wed May 19 22:01:19 2021
 @author: axalo
 """
-
 import os, shutil, math
 
 class Checks:
@@ -111,9 +110,17 @@ class Split:
         self.test_folder = generate_folder("test")
     
     def addToMasterList(self, path, f):
-        filename = os.path.join(self.loc, "master_list.txt")
-        with open(filename, 'a') as master:
-            master.write(os.path.join(path, f) + "\n")
+        def addTo(name):
+            filename = os.path.join(self.loc, name + ".txt")
+            with open(filename, 'a') as master:
+                master.write(os.path.join(path, f) + "\n")
+        
+        if "validate" in path:
+            addTo("master_validate")
+        elif "test" in path:
+            addTo("master_test")
+        else:
+            addTo("master_train")
     
     def move_files(self, percentages, dest_folders):
         for subdir, dirs, files in os.walk(self.img_dir):
