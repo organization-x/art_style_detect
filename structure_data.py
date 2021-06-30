@@ -5,6 +5,7 @@ Created on Wed May 19 22:01:19 2021
 """
 import os, shutil, math
 
+# class that checks
 class Checks:
     def check_exists(self, dirpath, loc):
         exists = False
