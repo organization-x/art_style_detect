@@ -26,8 +26,8 @@ class Imgs:
         self.tools = Tools()
         self.image_folders = []
 
-        self.in_dir = "C:/Users/axalo/OneDrive/Documents/aicamp_project/image_folders_2/" #directory with your image folders goes here
-        self.out_dir = "C:/Users/axalo/OneDrive/Documents/aicamp_project/" #directory to place cleaned image folder in
+        self.in_dir = "" #directory with your image folders goes here
+        self.out_dir = "" #directory to place cleaned image folder in
         
         print("Images will be taken from folders in {} and a new folder will be placed in {}".format(self.in_dir, self.out_dir))
         proceed = input("Proceed? (y/n): ")

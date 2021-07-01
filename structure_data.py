@@ -3,6 +3,9 @@
 Created on Wed May 19 22:01:19 2021
 @author: axalo
 """
+
+#DO NOT RUN THIS YET
+
 import os, shutil, math
 
 # class that checks
@@ -70,13 +73,17 @@ class Data:
                   "Renaissance", "Post Impressionist", "Realist"]
         
         # This is where you put in the directory
+        #
         # [style of art, path to image directory, name of new folder, directory you want the python file to work in]
+        #
         # For the last spot, leave it blank if this file is in the same directory as your image folder
         # Below is an example/template:
+        #
+        # example = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
         
-        test = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
+        vals = ["", "", "", ""] #See above comments
     
-        style, in_dir, img_dir, cur_dir = tuple(test)
+        style, in_dir, img_dir, cur_dir = tuple(vals)
         
         
         self.action = Cleaner(in_dir, img_dir, styles.index(style), cur_dir)
