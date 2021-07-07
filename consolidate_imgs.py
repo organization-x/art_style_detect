@@ -6,6 +6,8 @@ Created on Wed Jun  9 19:13:33 2021
 
 import os, shutil, zipfile, random
 
+
+
 class Tools:
     def adding_images(self, dirpath, loc):
         exists = False
@@ -18,6 +20,9 @@ class Tools:
     
     def dir_len(self, dirpath):
         return sum(len(files) for _, _, files in os.walk(dirpath)) - 1
+
+
+
 
 class Imgs:
     def __init__(self):
@@ -45,7 +50,8 @@ class Imgs:
             self.adding_imgs = True
         
         os.mkdir(self.unzipped_folders)
-            
+
+
     def extract(self):
         def delete_non_imgs():
             for s, d, tmpfiles in os.walk(pathname):
@@ -63,7 +69,8 @@ class Imgs:
                     z.extractall(pathname)
                     delete_non_imgs()
                 num += 1
-    
+
+
     def consolidate(self):
         def get_new_name():
             imgnum = random.choice(numlist)
@@ -79,6 +86,7 @@ class Imgs:
                 os.rename(old_name, new_name)
                 shutil.copy(new_name, self.new_folder)
     
+
     def delete_dups(self):            
         for subdir, dirs, files in os.walk(self.unzipped_folders):
             for f in files:
@@ -89,11 +97,14 @@ class Imgs:
                 else:
                     raise Exception("Non-png/jpg item found in directory")
     
+
     def display_paths(self):
         print("\n" + "New Folder: " + self.new_folder[:-1]) #returns path to be used with structure_data.py
     
+
     def clear_tmp_folders(self):
         shutil.rmtree(self.unzipped_folders)
+    
     
     def clean(self):
         self.display_paths()
