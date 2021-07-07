@@ -129,5 +129,3 @@ dmypy.json
 .pyre/
 
 
-# example
-not_to_be_pushed.txt

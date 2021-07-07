@@ -6,7 +6,11 @@ Created on Wed Jun  9 19:13:33 2021
 
 import os, shutil, zipfile, random
 
-
+#CONSTANTS
+ALL_IMG_FOLDER = "all_images"
+UNZIPPED_IMG_FOLDER = "unzipped_img_folders"
+DIR_IMG_FOLDER = "/Users/daokid/desktop/image_folder"
+CLEAN_IMG_FOLDER ="/Users/daokid/desktop/clean_images"
 
 class Tools:
     def adding_images(self, dirpath, loc):
@@ -31,16 +35,17 @@ class Imgs:
         self.tools = Tools()
         self.image_folders = []
 
-        self.in_dir = "" #directory with your image folders goes here
-        self.out_dir = "" #directory to place cleaned image folder in
+        self.in_dir = DIR_IMG_FOLDER #directory with your image folders goes here
+        self.out_dir = CLEAN_IMG_FOLDER #directory to place cleaned image folder in
         
         print("Images will be taken from folders in {} and a new folder will be placed in {}".format(self.in_dir, self.out_dir))
         proceed = input("Proceed? (y/n): ")
         if proceed != "y":
             raise Exception("Mistake in user input")
         
-        self.new_folder = os.path.join(self.out_dir, "all_images/")
-        self.unzipped_folders = os.path.join(self.out_dir, "unzipped_img_folders/")
+        self.new_folder = os.path.join(self.out_dir, ALL_IMG_FOLDER)
+        self.unzipped_folders = os.path.join(self.out_dir, UNZIPPED_IMG_FOLDER)
+
         if not self.tools.adding_images(self.new_folder, self.out_dir):
             os.mkdir(self.new_folder)
             self.count_imgs = 0
@@ -105,7 +110,7 @@ class Imgs:
     def clear_tmp_folders(self):
         shutil.rmtree(self.unzipped_folders)
     
-    
+
     def clean(self):
         self.display_paths()
         self.extract()
