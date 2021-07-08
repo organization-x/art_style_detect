@@ -7,6 +7,7 @@ Created on Wed Jun  9 19:13:33 2021
 import os, shutil, zipfile, random
 
 #CONSTANTS
+#Random2.0
 ALL_IMG_FOLDER = "all_images"
 UNZIPPED_IMG_FOLDER = "unzipped_img_folders"
 DIR_IMG_FOLDER = "/Users/daokid/desktop/image_folder"
