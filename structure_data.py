@@ -4,11 +4,8 @@ Created on Wed May 19 22:01:19 2021
 @author: axalo
 """
 
-#DO NOT RUN THIS YET
-
 import os, shutil, math
 
-# class that checks
 class Checks:
     def check_exists(self, dirpath, loc):
         exists = False
@@ -73,24 +70,19 @@ class Data:
                   "Renaissance", "Post Impressionist", "Realist"]
         
         # This is where you put in the directory
-        #
         # [style of art, path to image directory, name of new folder, directory you want the python file to work in]
-        #
         # For the last spot, leave it blank if this file is in the same directory as your image folder
         # Below is an example/template:
-        #
-        # example = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
         
-        vals = ["", "", "", ""] #See above comments
+        test = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
     
-        style, in_dir, img_dir, cur_dir = tuple(vals)
+        style, in_dir, img_dir, cur_dir = tuple(test)
         
         
         self.action = Cleaner(in_dir, img_dir, styles.index(style), cur_dir)
         
     def clean(self):
-        self.checks.file_check(os.path.join(self.action.getCurDir(), "master_list.txt"), self.action.getCurDir())
-        for subdir, dirs, files in os.walk(self.action.getInDir()):
+        for subdir, _, files in os.walk(self.action.getInDir()):
             for f in files:
                 if f.endswith(".jpg"):
                     self.action.addImgFiles(subdir, f)
@@ -113,25 +105,16 @@ class Split:
             os.mkdir(tmp)
             return tmp
                     
-        self.train_folder = generate_folder("train")
-        self.validate_folder = generate_folder("validate")
-        self.test_folder = generate_folder("test")
+        self.train = generate_folder("train")
+        self.valid = generate_folder("validate")
+        self.test = generate_folder("test")
     
-    def addToMasterList(self, path, f):
-        def addTo(name):
-            filename = os.path.join(self.loc, name + ".txt")
-            with open(filename, 'a') as master:
-                master.write(os.path.join(path, f) + "\n")
-        
-        if "validate" in path:
-            addTo("master_validate")
-        elif "test" in path:
-            addTo("master_test")
-        else:
-            addTo("master_train")
+    #def addToMasterList(self, path, f):
+        #with open(self.master, 'a') as master:
+            #master.write(os.path.join(path, f) + "\n")
     
     def move_files(self, percentages, dest_folders):
-        for subdir, dirs, files in os.walk(self.img_dir):
+        for _, _, files in os.walk(self.img_dir):
             n = x = 0
             length = self.checks.round_to_even((len(files) / 2) * percentages[x])
             for f in files:
@@ -139,11 +122,11 @@ class Split:
                     x += 1
                     length += self.checks.round_to_even((len(files) / 2) * percentages[x])
                 shutil.copy(os.path.join(self.img_dir, f), dest_folders[x])
-                self.addToMasterList(dest_folders[x], f)
+                #self.addToMasterList(dest_folders[x], f)
                 n += 0.5
     
     def fill_dirs(self):
-        folders = [self.train_folder, self.validate_folder, self.test_folder]
+        folders = [self.train, self.valid, self.test]
         self.move_files([0.6, 0.2, 0.2], folders)
         print("Training Images:", folders[0])
         print("Validate Images:", folders[1])
@@ -154,3 +137,4 @@ if __name__ == "__main__":
     src = data.clean()
     split = Split(src)
     split.fill_dirs()
+    print("done")
