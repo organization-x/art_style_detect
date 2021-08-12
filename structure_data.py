@@ -74,9 +74,9 @@ class Data:
         # For the last spot, leave it blank if this file is in the same directory as your image folder
         # Below is an example/template:
         
-        test = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
+        vals = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
     
-        style, in_dir, img_dir, cur_dir = tuple(test)
+        style, in_dir, img_dir, cur_dir = tuple(vals)
         
         
         self.action = Cleaner(in_dir, img_dir, styles.index(style), cur_dir)
