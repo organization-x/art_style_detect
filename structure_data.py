@@ -74,9 +74,9 @@ class Data:
         # For the last spot, leave it blank if this file is in the same directory as your image folder
         # Below is an example/template:
         
-        test = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
+        vals = ["Impressionist", "C:/Users/axalo/OneDrive/Documents/aicamp_project/all_images", "all_imgtxt", ""]
     
-        style, in_dir, img_dir, cur_dir = tuple(test)
+        style, in_dir, img_dir, cur_dir = tuple(vals)
         
         
         self.action = Cleaner(in_dir, img_dir, styles.index(style), cur_dir)
@@ -86,22 +86,17 @@ class Data:
             for f in files:
                 if f.endswith(".jpg"):
                     self.action.addImgFiles(subdir, f)
-        return self.action.getImgDir()
+        return self.action.getImgDir(), self.action.getCurDir()
     
 
 class Split:
-    def __init__(self, img_dir):
+    def __init__(self, img_dir, splits_dir):
         self.checks = Checks()
         self.img_dir = img_dir
-        
-        #input("Path Of Split Folder Directory: ")
-        tmp = ''
-        
-        self.loc = os.getcwd() if tmp == '' else tmp
             
         def generate_folder(folder):
-            tmp = os.path.join(self.loc, folder)
-            self.checks.dir_check(tmp, self.loc)
+            tmp = os.path.join(splits_dir, folder)
+            self.checks.dir_check(tmp, splits_dir)
             os.mkdir(tmp)
             return tmp
                     
@@ -116,6 +111,7 @@ class Split:
     def move_files(self, percentages, dest_folders):
         for _, _, files in os.walk(self.img_dir):
             n = x = 0
+            files.sort()
             length = self.checks.round_to_even((len(files) / 2) * percentages[x])
             for f in files:
                 if n >= length:
@@ -134,7 +130,7 @@ class Split:
 
 if __name__ == "__main__":
     data = Data()
-    src = data.clean()
-    split = Split(src)
+    src, dest = data.clean()
+    split = Split(src, dest)
     split.fill_dirs()
     print("done")
