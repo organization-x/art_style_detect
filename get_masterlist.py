@@ -1,17 +1,28 @@
 import os
 
-def crt_list(dirs, cwd):
-    for d in dirs:
-        d = os.path.join(cwd, d)
-        for subdir, _, files in d:
+class Masterlist:
+    def __init__(self):
+        self.cwd = os.getcwd()
+        lists = [os.path.join(self.cwd, "trains.txt"), os.path.join(self.cwd, "valids.txt"), os.path.join(self.cwd, "tests.txt")]
+        
+        self.dirpaths = ["train", "valid", "test"]      #paths (names if same dir) of image folders
+
+        #self.filepaths = [k:v for k, v in self.dirpaths, []]
+        self.filepaths = {"train": lists[0], "valid": lists[1], "test": lists[2]}
+
+    def crt_list(self, dirpath):
+        full_path = os.path.join(self.cwd, dirpath)
+        for subdir, _, files in os.walk(full_path):
             for f in files:
-                with open(masterlist, 'a') as master:
-                    master.write(os.path.join(subdir, f) + "\n")
+                if f.endswith("jpg"):
+                    with open(self.filepaths[dirpath], 'a') as master:
+                        master.write(os.path.join(subdir, f) + "\n")  #results in extra empty line at end of file - does that work?
+
+    def crt_lists(self):
+        for dirpath in self.dirpaths:
+            self.crt_list(dirpath)
 
 if __name__ == "__main__":
-    cwd = os.getcwd()
-    train_list = os.path.join(cwd, "trains.txt")
-    valid_list = os.path.join(cwd, "valids.txt")
-    test_list = os.path.join(cwd, "tests.txt")
-    crt_list(["train", "validate", "test"], cwd)
+    master = Masterlist()
+    master.crt_lists()
     print("done")
