@@ -7,8 +7,8 @@ class Masterlist:
         
         self.dirpaths = ["train", "valid", "test"]      #paths (names if same dir) of image folders
 
-        #self.filepaths = [k:v for k, v in self.dirpaths, []]
-        self.filepaths = {"train": lists[0], "valid": lists[1], "test": lists[2]}
+        self.filepaths = {self.dirpaths[i]:lists[i] for i in range(len(self.dirpaths))}
+        print(self.filepaths)
 
     def crt_list(self, dirpath):
         full_path = os.path.join(self.cwd, dirpath)
