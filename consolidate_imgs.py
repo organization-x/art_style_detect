@@ -6,7 +6,7 @@ Created on Wed Jun  9 19:13:33 2021
 
 import os, shutil, zipfile, random
 
-class Tools:
+class Tools: #provide basic mechanisms
     def adding_images(self, dirpath, loc):
         exists = False
         cur = os.getcwd()
@@ -19,7 +19,7 @@ class Tools:
     def dir_len(self, dirpath):
         return sum(len(files) for _, _, files in os.walk(dirpath)) - 1
 
-class Imgs:
+class Imgs: #class to house rest of functions
     def __init__(self):
         # Windows: "C:/Users/username/.../project/"
         # Linux/MacOS: "/Users/username/.../project/"
@@ -45,7 +45,7 @@ class Imgs:
         
         os.mkdir(self.unzipped_folders)
             
-    def extract(self):
+    def extract(self): #unzip images into temporary folders
         def delete_non_imgs():
             for s, _, tmpfiles in os.walk(pathname):
                 for tmpfile in tmpfiles:
@@ -63,7 +63,7 @@ class Imgs:
                     delete_non_imgs()
                 num += 1
     
-    def consolidate(self):
+    def consolidate(self): #consolidate images from folders into one
         def get_new_name():
             imgnum = random.choice(numlist)
             numlist.remove(imgnum)
@@ -78,7 +78,7 @@ class Imgs:
                 os.rename(old_name, new_name)
                 shutil.copy(new_name, self.new_folder)
     
-    def delete_dups(self):            
+    def delete_dups(self): #delete duplicate images based on bit size    
         for subdir, _, files in os.walk(self.unzipped_folders):
             for f in files:
                 if f.endswith(".png") or f.endswith(".jpg"):
@@ -88,13 +88,13 @@ class Imgs:
                 else:
                     raise Exception("Non-png/jpg item found in directory")
     
-    def display_paths(self):
+    def display_paths(self): #return new path folders for train/test/valid
         print("\n" + "New Folder: " + self.new_folder[:-1]) #returns path to be used with structure_data.py
     
-    def clear_tmp_folders(self):
+    def clear_tmp_folders(self): #remove preexisting folderss
         shutil.rmtree(self.unzipped_folders)
     
-    def clean(self):
+    def clean(self): #wrapper
         self.display_paths()
         self.extract()
         self.delete_dups()
